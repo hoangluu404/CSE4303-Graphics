@@ -1,0 +1,169 @@
+#-----------------------------------------------------------------
+Programming Assignment 02
+
+#-----------------------------------------------------------------
+Purpose:
+
+  * Demonstrate ability to write some simple C functions
+      representing the some additional transforms.
+
+  * Demonstrate again the ability to take a screenshot properly.
+      (No, really;  for some persons, this is harder than it
+       sounds. :)
+
+#-----------------------------------------------------------------
+Background:
+
+  * All the math you need we reviewed in class.
+
+  * Be certain you check for the error conditions we reviewed in
+      class.  (These are mostly opportunities to divide by zero.)
+      Just print a descriptive error message to stderr and then
+      exit( 1 ).
+
+#-----------------------------------------------------------------
+Tasks:
+
+  1. Download hmwk_02_dalioba.zip from Canvas.
+
+  2. Unzip this files somewhere convenient.
+
+  3. Change 'dalioba' in the name of the directory to your NetID.
+     (Your NetID is three letters followed by four or five digits.
+      The directory name will now be something like
+      'hmwk_02_abc1234' but with _your_ NetID in place of
+      'abc1234'.)
+
+  4. Look in that directory.  There's a Template directory that
+     has some files in it.  Move them up one level into the
+     'hmwk_02_abc1234' directory.
+
+  5. Change the header lines in the files transforms.c and
+      IDTest2.c.
+
+      -- Line 1:  Family name first, then a comma, then
+                  personal name.
+
+      -- Line 2:  Your NetID.
+
+      -- Line 3:  The date you edited the file, in the format
+                  YYYY-MM-DD (all digits!).
+
+  6. Edit transforms.c and put the proper code in each of the
+      bodies of the unwritten transforms -- there are four (4)
+      spots you have to do this.  (They're marked with TODO
+      comments.)
+
+  7. After you're done with that, make and run transformsTest2.
+      The complete results are shown in the file
+      Results/transformsTest2Results.txt.  Your results should
+      match EXACTLY.  If they don't, STOP RIGHT HERE and figure
+      out what's wrong.  If this doesn't work perfectly, there's
+      no point going any further.
+
+  8. Make and run IDTest2.  The sample results are shown in the
+      file Results/IDTest2Results.txt.  Your results should match
+      EXACTLY.  If they don't, STOP RIGHT HERE and figure out
+      what's wrong.  If this doesn't work perfectly, there's no
+      point going any further.
+
+  9. Now edit IDTest2.c so that it uses the digits from YOUR
+      StudentID instead of the sample digits.  There are
+      instructions in IDTest2.c explaining how to do this.  READ
+      THE INSTRUCTIONS!  Remake and rerun the IDTest2 program and
+      take a screenshot of it running with YOUR StudentID digits.
+
+      The screenshot should be similar to the example in Results/
+      though it will of course show the results using digits from
+      YOUR StudentID.
+
+      The screenshot MUST be in PNG (Portable Network Graphics)
+      format.
+
+#----------------------------------------------------------------------
+Submission:
+
+Make a zipfile of your 'hmwk_02_abc1234' directory (with 'abc1234'
+changed to YOUR NetID and with your transforms.c, IDTest2.c, and
+IDTest2.png files in it) and submit this zipfile on Canvas as your
+results for this assignment.
+
+All your zipfile should include is a directory with three files in
+it, transforms.c, IDTest2.c, and IDTest2.png (did you update the
+headers correctly in the source files?).
+
+The image file MUST be in PNG (standard Portable Network Graphics)
+format!
+
+Different OSes have a history of mucking with screenshots and file
+formats, so ENSURE that your screenshot is actually a standard
+Portable Network Graphics file and not some other format.  If your
+screenshot is not in standard Portable Network Graphics format,
+you get ZERO credit for it, so be careful!
+
+Do NOT include any other files in the directory.
+
+#-----------------------------------------------------------------
+Hints:
+  1. Ensure your program compiles and runs correctly.  You should
+     not get ANY warnings or errors when you compile.  ALWAYS
+     compile your code with -Wall and -Wextra and deal with ANY
+     warnings or errors that are identified.  ALWAYS compile your
+     code with -fsanitize=leak and -fsanitize=address and deal
+     with ANY warnings or errors reported.
+
+     Generating warnings or errors, not compiling, not running,
+     core dumping, crashing, going into an infinite loop, getting
+     the wrong answers, getting memory errors ... will earn you
+     ZERO points.
+
+     Ensure your test results match those given in the Results/
+     subdirectory.  Not matching EXACTLY means you are not
+     performing the transformations correctly.  You will not get
+     any credit for malfunctioning transforms.
+
+     ('EXACTLY' means character-by-character the same in the
+      output.  No differences in values.)
+
+  2. Ensure that you update the three header lines in the source
+     files with YOUR name (family name first, then a comma, then
+     your personal name), YOUR NetID, and the date you edit the
+     file, in the format YYYY-MM-DD (all digits!).
+
+     Not updating the header lines properly will cost you points.
+
+  3. Ensure your submission is packaged EXACTLY as described above.
+
+      -- Your submission should be a ZIP FILE (not a tar, rar, gz,
+         or any other kind of compressed file).
+
+      -- The zip file should be named 'hmwk_02_abc1234.zip' (with
+         'abc1234' replaced with YOUR NetID).
+
+      -- This zip file should have ONE item in it, a directory
+         named 'hmwk_02_abc1234'  (with 'abc1234' replaced with
+         YOUR NetID).
+
+      -- Your files should be in that directory.  The files should
+         be named transforms.c, IDTest2.c, and IDTest2.png.
+
+     Submissions in the wrong format score ZERO points.
+
+  4. Your transforms.c is going to be tried against another test
+     file when it's evaluated for credit.  You DEFINITELY need to
+     make some test cases of your own to ensure that your
+     transforms are working properly.
+
+  5. After you submit your zip file on Canvas, download it from
+     Canvas into an empty directory, unzip it, and check that your
+     submission is in the proper format, that the program runs and
+     prints the correct output, that you updated the header lines
+     correctly, that your screenshot really is in standard
+     Portable Network Graphics format, that there are only three
+     files in the directory, and so forth.
+
+  6. Are you CERTAIN you complied with all of these nit-picking
+     instructions?  Really?  Maybe you ought to check just one
+     more time. :)
+
+#-----------------------------------------------------------------
