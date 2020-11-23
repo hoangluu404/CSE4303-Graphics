@@ -1,0 +1,142 @@
+#-----------------------------------------------------------------
+Programming Assignment 03
+
+#-----------------------------------------------------------------
+Purpose:
+
+  * Demonstrate ability to make simple edits to and run the
+      Display tool.
+
+  * Demonstrate once again the ability to take a screenshot
+      properly.  (No, really;  for some persons, this really does
+      seem to be harder than it sounds. :)
+
+#-----------------------------------------------------------------
+Background:
+
+  * Get the Display tool from the Tools section of the Modules
+      area on Canvas.  Unzip it someplace convenient, read the
+      handy README.txt file, and try out the program.  You must
+      run the program with Python3!
+
+#-----------------------------------------------------------------
+Tasks:
+
+  1. Download hmwk_03_dalioba.zip from Canvas.
+
+  2. Unzip this file somewhere convenient.
+
+  3. Change 'dalioba' in the name of the directory to your NetID.
+     (Your NetID is three letters followed by four or five digits.
+      The directory name will now be something like
+      'hmwk_03_abc1234' but with _your_ NetID in place of
+      'abc1234'.)
+
+  4. Look in that directory.  Surprise!  All that's there is this
+      HMWK_03.txt file.  All of the rest of the files are in that
+      Display.zip that was explained in the Background section
+      above.
+
+  5. Edit the myGraphics.py file:
+
+      Line 37 :  Change the color of the background to be
+        something other than grey.  The format of the color is the
+        standard #rrggbb style where rr, gg, and bb are two-digit
+        hex values representing the strength of the Red, Green,
+        and Blue components of the color.  Line 37 should now look
+        something like this:
+
+      world.rootWindow, width=1, height=1, bg='#C0C0C0' )
+
+        except the '#C0C0C0' should be replaced with YOUR color.
+        (Pick a color combination that's NOT any shade of grey!)
+
+        Ensure that your color is light enough that the lines
+        drawn on it are clearly visible.  Those lines are drawn in
+        black, so don't make your background color too dark.
+
+      Line 109 :  Change 'dalioba' in the message to be YOUR
+        NetID.  (Remember, your NetID is three letters followed by
+        four or five digits.)  Line 109 should now look something
+        like this:
+
+    msg = f'abc1234: {formatStr % args}'
+
+        except that the 'abc1234' should be replaced with YOUR
+        NetID.
+
+  6. It is VERY IMPORTANT that you do NOT change anything else in
+      this file.  Do not disturb the spacing;  Python is sensitive
+      to spaces on the fronts of lines (that's how it determines
+      nesting level), so don't mess with the spacing.
+
+  7. Once you have made your two changes, rerun main.py, load the
+      given test.sdf file, and take a screenshot.  The screenshot
+      should look like the test_screenshot.png file, but with a
+      different background color (NOT any shade of grey) and with
+      YOUR NetID appearing in the message in the status bar.
+
+      The screenshot MUST be in PNG (Portable Network Graphics)
+      format.
+
+      Name your screenshot hmwk_03.png.
+
+      By the way, all you need is a screenshot of the program
+      window itself, not your entire desktop.  What you choose to
+      have on your desktop is your own business, not mine.  By
+      clipping the image to be just the program window, you keep
+      the rest of the desktop private.  =:O
+
+#----------------------------------------------------------------------
+Submission:
+
+Make a zipfile of your 'hmwk_03_abc1234' directory (with 'abc1234'
+changed to YOUR NetID and with your hmwk_03.png file in it) and
+submit this zipfile on Canvas as your results for this assignment.
+
+All your zipfile should include is a directory with one file in
+it, hmwk_03.png.
+
+The image file MUST be in PNG (standard Portable Network Graphics)
+format!
+
+Different OSes have a history of mucking with screenshots and file
+formats, so ENSURE that your screenshot is actually a standard
+Portable Network Graphics file and not some other format.  If your
+screenshot is not in standard Portable Network Graphics format,
+you get ZERO credit for it, so be careful!
+
+Do NOT include any other files in the directory when you zip it.
+
+#-----------------------------------------------------------------
+Hints:
+  1. Ensure your submission is packaged EXACTLY as described above.
+
+      -- Your submission should be a ZIP FILE (not a tar, rar, gz,
+         or any other kind of compressed file).
+
+      -- The zip file should be named 'hmwk_03_abc1234.zip' (with
+         'abc1234' replaced with YOUR NetID).
+
+      -- This zip file should have ONE item in it, a directory
+         named 'hmwk_03_abc1234'  (with 'abc1234' replaced with
+         YOUR NetID).
+
+      -- Your file should be in that directory.  The file should
+         be named hmwk_03.png.
+
+     Submissions in the wrong format score ZERO points.
+
+  2. After you submit your zip file on Canvas, download it from
+     Canvas into an empty directory, unzip it, and check that your
+     submission is in the proper format, that your screenshot
+     really is in standard Portable Network Graphics format, that
+     it's an image of the program window only (not your complete
+     desktop), that there is only one file in the directory, and
+     so forth.
+
+  3. Are you CERTAIN you complied with all of these nit-picking
+     instructions?  Really?  Maybe you ought to check just one
+     more time. :)
+
+#-----------------------------------------------------------------

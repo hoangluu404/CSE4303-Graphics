@@ -1,0 +1,33 @@
+//----------------------------------------
+// Loading parameters from "example-06.params" ...
+// Params from "example-06.params"
+//   Euler angles    : ϕ 45°, θ 30°, ψ 0°
+//   Camera distance : 1.5
+//   World view      : (-1.7, -1.7) .. (1.7, 1.7)
+//   Canvas size     : (W 600, H 600)
+//   Screen clip     : (50, 50) .. (550, 550)
+//----------------------------------------
+// Loading object from "monkey-back.svfm" ...
+// Line 7 not understood:
+w   -1.640625   -1.181250    1.640625    1.181250
+
+// Line 8 not understood:
+s    0.100000    0.100000    0.900000    0.900000
+
+//   507 points, 967 faces
+//----------------------------------------
+// Euler rotation by ϕ 45°, θ 30°, ψ 0° ...
+//   r00 =    0.866025, r01 =    0.000000, r02 =    0.500000
+//   r10 =    0.353553, r11 =    0.707107, r12 =   -0.612372
+//   r20 =   -0.353553, r21 =    0.707107, r22 =    0.612372
+//   ex  =    0.000000, ey  =    0.000000, ez  =    0.000000
+//------------------------- Perspective --
+// Projecting
+//    world range : (-1.7, -1.7) .. (1.7, 1.7)
+//    canvas size : (W 600, H 600)
+//    viewpoint   : 1.5
+//----------------------------------------
+// Displaying
+//    out file    : "example-06_monkey-back.sdf"
+//    canvas size : (W 600, H 600)
+//    clip region : (50, 50) .. (550, 550)

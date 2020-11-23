@@ -1,0 +1,26 @@
+//----------------------------------------
+// Loading parameters from "example-04.params" ...
+// Params from "example-04.params"
+//   Euler angles    : ϕ 0°, θ 0°, ψ 0°
+//   Camera distance : 0
+//   World view      : (-1.7, -1.7) .. (1.7, 1.7)
+//   Canvas size     : (W 600, H 600)
+//   Screen clip     : (50, 50) .. (550, 550)
+//----------------------------------------
+// Loading object from "monkey.svfm" ...
+//   507 points, 967 faces
+//----------------------------------------
+// Euler rotation by ϕ 0°, θ 0°, ψ 0° ...
+//   r00 =    1.000000, r01 =    0.000000, r02 =    0.000000
+//   r10 =    0.000000, r11 =    1.000000, r12 =    0.000000
+//   r20 =    0.000000, r21 =    0.000000, r22 =    1.000000
+//   ex  =    0.000000, ey  =    0.000000, ez  =    0.000000
+//------------------------- Parallel -----
+// Projecting
+//    world range : (-1.7, -1.7) .. (1.7, 1.7)
+//    canvas size : (W 600, H 600)
+//----------------------------------------
+// Displaying
+//    out file    : "example-04_monkey.sdf"
+//    canvas size : (W 600, H 600)
+//    clip region : (50, 50) .. (550, 550)

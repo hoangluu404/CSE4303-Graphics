@@ -1,0 +1,27 @@
+//----------------------------------------
+// Loading parameters from "example-03.params" ...
+// Params from "example-03.params"
+//   Euler angles    : ϕ 45°, θ 30°, ψ 0°
+//   Camera distance : 1.5
+//   World view      : (-1, -1) .. (1, 1)
+//   Canvas size     : (W 500, H 400)
+//   Screen clip     : (125, 40) .. (450, 300)
+//----------------------------------------
+// Loading object from "pyramid-skewed.svfm" ...
+//   5 points, 6 faces
+//----------------------------------------
+// Euler rotation by ϕ 45°, θ 30°, ψ 0° ...
+//   r00 =    0.866025, r01 =    0.000000, r02 =    0.500000
+//   r10 =    0.353553, r11 =    0.707107, r12 =   -0.612372
+//   r20 =   -0.353553, r21 =    0.707107, r22 =    0.612372
+//   ex  =   -0.134808, ey  =    0.137554, ez  =    0.171025
+//------------------------- Perspective --
+// Projecting
+//    world range : (-1, -1) .. (1, 1)
+//    canvas size : (W 500, H 400)
+//    viewpoint   : 1.5
+//----------------------------------------
+// Displaying
+//    out file    : "example-03_pyramid-skewed.sdf"
+//    canvas size : (W 500, H 400)
+//    clip region : (125, 40) .. (450, 300)

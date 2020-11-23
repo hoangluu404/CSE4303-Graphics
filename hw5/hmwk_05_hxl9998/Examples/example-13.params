@@ -1,0 +1,22 @@
+# World window range
+#   xmin  xmax  ymin  ymax
+w   -1.0  1.0   -1.0   1.0
+
+# Canvas size
+#   width  height
+c   600    600
+
+# Screen clip region
+#   xmin  xmax  ymin  ymax
+s    30   570    30   570
+
+# Euler rotation angles (in degrees!)
+#   phi (X)  theta (Y)  psi (Z)
+#e    45.0      30.0       0.0
+
+# Camera view position
+#   (zero or omitted means Parallel projection)
+d  1.125
+
+# Backface cull
+b  1

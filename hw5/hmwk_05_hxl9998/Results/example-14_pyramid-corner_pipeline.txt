@@ -1,0 +1,31 @@
+//----------------------------------------
+// Loading parameters from "example-14.params" ...
+// Params from "example-14.params"
+//   Euler angles    : ϕ 0°, θ 0°, ψ 0°
+//   Camera distance : 1.1
+//   World view      : (-0.5, -0.5) .. (1, 1)
+//   Canvas size     : (W 600, H 600)
+//   Screen clip     : (90, 90) .. (510, 510)
+//   Cull            : Yes
+//----------------------------------------
+// Loading object from "pyramid-corner.svfm" ...
+//   5 points, 6 faces
+//----------------------------------------
+// Euler rotation by ϕ 0°, θ 0°, ψ 0° ...
+//   r00 =    1.000000, r01 =    0.000000, r02 =    0.000000
+//   r10 =    0.000000, r11 =    1.000000, r12 =    0.000000
+//   r20 =    0.000000, r21 =    0.000000, r22 =    1.000000
+//   ex  =    0.000000, ey  =    0.000000, ez  =    0.000000
+//-------------------- Backface Culling --
+//   6 faces in model, 4 are invisible.
+//------------------------- Perspective --
+// Projecting
+//    World view  : (-0.5, -0.5) .. (1, 1)
+//    Canvas size : (W 600, H 600)
+//    Viewpoint   : 1.1
+//----------------------------------------
+// Displaying
+//    Out file    : "example-14_pyramid-corner.sdf"
+//    Canvas size : (W 600, H 600)
+//    Clip region : (90, 90) .. (510, 510)
+//----------------------------------------

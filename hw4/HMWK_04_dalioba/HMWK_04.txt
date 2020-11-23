@@ -1,0 +1,474 @@
+#-----------------------------------------------------------------
+Programming Assignment 04
+
+#-----------------------------------------------------------------
+Purpose:
+
+  * Demonstrate ability to write some simple C functions that will
+      implement a complete pipeline from a 3D model representing
+      an object through to clipped 2D lines for display.
+
+#-----------------------------------------------------------------
+Background:
+
+  * All the math and background you need we reviewed in class.
+
+  * It's all covered in the various handouts that are available on
+    Canvas.  (Don't forget to review your own notes as well.  You
+    do take notes in class, don't you?)
+
+#-----------------------------------------------------------------
+Tasks:
+
+  1. Download hmwk_04_dalioba.zip from Canvas.
+
+  2. Unzip this files somewhere convenient.
+
+  3. Change 'dalioba' in the name of the directory to your NetID.
+     (Your NetID is three letters followed by four or five digits.
+      The directory name will now be something like
+      'hmwk_04_abc1234' but with _your_ NetID in place of
+      'abc1234'.)
+
+  4. Look in that directory.  There's a Template directory that
+     has some files in it.  Move them up one level into the
+     'hmwk_04_abc1234' directory.
+
+  5. Change the header lines in the files clip.c, display.c,
+     eulerRotate.c, and project.c.
+
+      -- Line 1:  Family name first, then a comma, then
+                  personal name.
+
+      -- Line 2:  Your NetID.
+
+      -- Line 3:  The date you edited the file, in the format
+                  YYYY-MM-DD (all digits!).
+
+  6. There are a number of spots in eulerRotate.c marked with
+     TODO instructions:
+
+eulerRotate.c:31:  // TODO:  Put something here that constructs three rotation ...
+eulerRotate.c:40:  // TODO:  Put something here that examines each point of the ...
+eulerRotate.c:52:  // TODO:  Put something here that uses the just computed tx, ...
+eulerRotate.c:62:  // TODO:  Put something here that combines the three rotation ...
+eulerRotate.c:85:  // TODO:  Put something here to transform all of the points ...
+
+     Read those instructions and write the proper code to replace
+     those TODO spots.  DO NOT CHANGE ANYTHING in the file EXCEPT
+     the TODO blocks (and the headers, of course :).  If you
+     change ANYTHING ELSE in the file, you will receive ZERO
+     CREDIT for this part of the assignment (no matter how well
+     the code might run for you).
+
+  7. Once you have replaced the TODO blocks in eulerRotate.c with
+     the proper code, run eulerTest thusly,
+
+$ make eulerTest
+gcc -g -Wall -Wextra -fsanitize=address -fsanitize=leak -static-libasan -o eulerTest matrix.c transforms.c support.c eulerRotate.c eulerTest.c -lm
+$ ./eulerTest Examples/example-01.params Examples/pyramid-centered.svfm
+//----------------------------------------
+// Loading parameters from "Examples/example-01.params" ...
+// Params from "Examples/example-01.params"
+//   Euler angles    : ϕ 45°, θ 30°, ψ 0°
+//   Camera distance : 0
+//   World view      : (-1, -1) .. (1, 1)
+//   Canvas size     : (W 500, H 400)
+//   Screen clip     : (50, 40) .. (450, 360)
+//----------------------------------------
+// Loading object from "Examples/pyramid-centered.svfm" ...
+//   5 points, 6 faces
+// 5 points
+//    0.     0.400000    -0.400000     0.000000     1.000000
+//    1.     0.400000     0.400000     0.000000     1.000000
+//    2.    -0.400000     0.400000     0.000000     1.000000
+//    3.    -0.400000    -0.400000     0.000000     1.000000
+//    4.     0.000000    -0.000000     0.700000     1.000000
+// 6 faces
+//    0.     1     3     0
+//    1.     0     4     1
+//    2.     1     4     2
+//    3.     2     4     3
+//    4.     4     0     3
+//    5.     1     2     3
+//----------------------------------------
+// Euler rotation by ϕ 45°, θ 30°, ψ 0° ...
+//   r00 =    0.866025, r01 =    0.000000, r02 =    0.500000
+//   r10 =    0.353553, r11 =    0.707107, r12 =   -0.612372
+//   r20 =   -0.353553, r21 =    0.707107, r22 =    0.612372
+//   ex  =   -0.175000, ey  =    0.214330, ez  =    0.135670
+// 5 points
+//    0.     0.171410     0.072909    -0.288594     1.000000
+//    1.     0.171410     0.638594     0.277091     1.000000
+//    2.    -0.521410     0.355752     0.559934     1.000000
+//    3.    -0.521410    -0.209934    -0.005752     1.000000
+//    4.     0.175000    -0.214330     0.564330     1.000000
+
+  8. You should get EXACTLY these results.  If you do not, STOP
+     right here, DO NOT GO ANY FURTHER until you figure out what
+     is wrong with your code.
+
+     Seriously, I mean it.  If you can't get even this to work, it
+     is USELESS to go any further.  Your results will be
+     incorrect.
+
+  9. Once you get the correct results from eulerTest on this first
+     example working correctly, try it on the other params files
+     in the Examples/ subdirectory.  You can try,
+
+       $ ./eulerTest Examples/example-01.params Examples/pyramid-centered.svfm
+       $ ./eulerTest Examples/example-01.params Examples/pyramid-skewed.svfm
+       $ ./eulerTest Examples/example-02.params Examples/pyramid-centered.svfm
+       $ ./eulerTest Examples/example-02.params Examples/pyramid-skewed.svfm
+       $ ./eulerTest Examples/example-03.params Examples/pyramid-centered.svfm
+       $ ./eulerTest Examples/example-03.params Examples/pyramid-skewed.svfm
+       $ ./eulerTest Examples/example-04.params Examples/monkey.svfm
+       $ ./eulerTest Examples/example-04.params Examples/monkey-back.svfm
+       $ ./eulerTest Examples/example-05.params Examples/monkey.svfm
+       $ ./eulerTest Examples/example-05.params Examples/monkey-back.svfm
+       $ ./eulerTest Examples/example-06.params Examples/monkey.svfm
+       $ ./eulerTest Examples/example-06.params Examples/monkey-back.svfm
+
+     Capture the results that get printed and compare them to the
+     corresponding ..._eulerTest.txt files in the Results/
+     subdirectory.  You should get the SAME RESULTS.
+
+     Seriously, if you do not get the SAME RESULTS for any
+     exercise, stop right there, do not go any further, and figure
+     out what is wrong.  It is USELESS to go any further until
+     this step is working OK.  Your results will be incorrect.
+
+     (And it will be much harder to figure out where the error is
+      located if you compound more and more code on top of code
+      that is not working correctly.)
+
+ 10. Once all of the eulerTest results are OK, move on to
+     project.c.  There are a number of spots in project.c marked
+     with TODO instructions:
+
+project.c:30:  // TODO:  Put something here to compute the proper Parallel ...
+project.c:47:  // TODO:  Put something here to compute the proper Perspective ...
+project.c:56:  // TODO:  Put something here to transform all of the points ...
+
+     Read those instructions and write the proper code to replace
+     those TODO spots.  DO NOT CHANGE ANYTHING in the file EXCEPT
+     the TODO blocks (and the headers, of course :).  If you
+     change ANYTHING ELSE in the file, you will receive ZERO
+     CREDIT for this part of the assignment (no matter how well
+     the code might run for you).
+
+ 11. Once you have replaced the TODO blocks in project.c with the
+     proper code, run projectTest thusly,
+
+$ make projectTest
+gcc -g -Wall -Wextra -fsanitize=address -fsanitize=leak -static-libasan -o projectTest matrix.c transforms.c support.c eulerRotate.c project.c projectTest.c -lm
+$ ./projectTest Examples/example-01.params Examples/pyramid-centered.svfm
+//----------------------------------------
+// Loading parameters from "Examples/example-01.params" ...
+// Params from "Examples/example-01.params"
+//   Euler angles    : ϕ 45°, θ 30°, ψ 0°
+//   Camera distance : 0
+//   World view      : (-1, -1) .. (1, 1)
+//   Canvas size     : (W 500, H 400)
+//   Screen clip     : (50, 40) .. (450, 360)
+//----------------------------------------
+// Loading object from "Examples/pyramid-centered.svfm" ...
+//   5 points, 6 faces
+// 5 points
+//    0.     0.400000    -0.400000     0.000000     1.000000
+//    1.     0.400000     0.400000     0.000000     1.000000
+//    2.    -0.400000     0.400000     0.000000     1.000000
+//    3.    -0.400000    -0.400000     0.000000     1.000000
+//    4.     0.000000    -0.000000     0.700000     1.000000
+// 6 faces
+//    0.     1     3     0
+//    1.     0     4     1
+//    2.     1     4     2
+//    3.     2     4     3
+//    4.     4     0     3
+//    5.     1     2     3
+//----------------------------------------
+// Euler rotation by ϕ 45°, θ 30°, ψ 0° ...
+//   r00 =    0.866025, r01 =    0.000000, r02 =    0.500000
+//   r10 =    0.353553, r11 =    0.707107, r12 =   -0.612372
+//   r20 =   -0.353553, r21 =    0.707107, r22 =    0.612372
+//   ex  =   -0.175000, ey  =    0.214330, ez  =    0.135670
+//------------------------- Parallel -----
+// Projecting
+//    world range : (-1, -1) .. (1, 1)
+//    canvas size : (W 500, H 400)
+// 5 points
+//    0.   292.266835   214.045345     0.000000     1.000000
+//    1.   292.266835   326.899587     0.000000     1.000000
+//    2.   119.408165   270.472466     0.000000     1.000000
+//    3.   119.408165   157.618224     0.000000     1.000000
+//    4.   293.162500   156.741095     0.000000     1.000000
+
+ 12. You should get EXACTLY these results.  If you do not, STOP
+     right here, DO NOT GO ANY FURTHER until you figure out what
+     is wrong with your code.
+
+     Seriously, I mean it.  If you can't get even this to work, it
+     is USELESS to go any further.  Your results will be
+     incorrect.
+
+ 13. Once you get the correct results from projectTest on this first
+     example working correctly, try it on the other params files
+     in the Examples/ subdirectory.  You can try,
+
+       $ ./projectTest Examples/example-01.params Examples/pyramid-centered.svfm
+       $ ./projectTest Examples/example-01.params Examples/pyramid-skewed.svfm
+       $ ./projectTest Examples/example-02.params Examples/pyramid-centered.svfm
+       $ ./projectTest Examples/example-02.params Examples/pyramid-skewed.svfm
+       $ ./projectTest Examples/example-03.params Examples/pyramid-centered.svfm
+       $ ./projectTest Examples/example-03.params Examples/pyramid-skewed.svfm
+       $ ./projectTest Examples/example-04.params Examples/monkey.svfm
+       $ ./projectTest Examples/example-04.params Examples/monkey-back.svfm
+       $ ./projectTest Examples/example-05.params Examples/monkey.svfm
+       $ ./projectTest Examples/example-05.params Examples/monkey-back.svfm
+       $ ./projectTest Examples/example-06.params Examples/monkey.svfm
+       $ ./projectTest Examples/example-06.params Examples/monkey-back.svfm
+
+     Capture the results that get printed and compare them to the
+     corresponding ..._projectTest.txt files in the Results/
+     subdirectory.  You should get the SAME RESULTS.
+
+     Seriously, if you do not get the SAME RESULTS for any
+     exercise, stop right there, do not go any further, and figure
+     out what is wrong.  It is USELESS to go any further until
+     this step is working OK.  Your results will be incorrect.
+
+     (And it will be much harder to figure out where the error is
+      located if you compound more and more code on top of code
+      that is not working correctly.)
+
+ 14. Once all of the projectTest results are OK, move on to
+     clip.c and display.c.  There are a number of spots in these
+     two files marked with TODO instructions:
+
+clip.c:23:  // TODO:  Compute the zones of p1 and p2. ...
+clip.c:25:  // TODO:  Return 1 if it's a trivial accept ...
+clip.c:27:  // TODO:  return 0 if it's a trivial reject ...
+clip.c:32:  // TODO:  Pick an endpoint that's outside. ...
+clip.c:48:  // TODO:  Compare x,y to the clip region expressed in paramsP. ...
+
+display.c: 44:  // TODO:  fprintf to fp a canvas size instruction, which looks ...
+display.c: 57:  // TODO:  fprintf to fp four line instructions, one for each of ...
+display.c: 72:  // TODO:  Draw each face by calling the drawFace() routine ...
+display.c: 89:  // TODO:  Three calls to drawLine(), each with the proper ...
+display.c:101:  // TODO:  Get the x,y coords of p1 into p1x, p1y as ROUNDED ...
+display.c:110:  // TODO:  Call clipLine() with the proper parameters.  Check its ...
+
+     Read those instructions and write the proper code to replace
+     those TODO spots.  DO NOT CHANGE ANYTHING in these files
+     EXCEPT the TODO blocks (and the headers, of course :).  If
+     you change ANYTHING ELSE in these files, you will receive
+     ZERO CREDIT for this part of the assignment (no matter how
+     well the code might run for you).
+
+ 15. Once you have replaced the TODO blocks in these files with
+     the proper code, run pipeline thusly,
+
+$ make pipeline
+gcc -g -Wall -Wextra -fsanitize=address -fsanitize=leak -static-libasan -o pipeline matrix.c transforms.c support.c eulerRotate.c project.c clip.c display.c main.c -lm
+$ ./pipeline Examples/example-01.params Examples/pyramid-centered.svfm example-01_pyramid-centered.sdf
+//----------------------------------------
+// Loading parameters from "Examples/example-01.params" ...
+// Params from "Examples/example-01.params"
+//   Euler angles    : ϕ 45°, θ 30°, ψ 0°
+//   Camera distance : 0
+//   World view      : (-1, -1) .. (1, 1)
+//   Canvas size     : (W 500, H 400)
+//   Screen clip     : (50, 40) .. (450, 360)
+//----------------------------------------
+// Loading object from "Examples/pyramid-centered.svfm" ...
+//   5 points, 6 faces
+//----------------------------------------
+// Euler rotation by ϕ 45°, θ 30°, ψ 0° ...
+//   r00 =    0.866025, r01 =    0.000000, r02 =    0.500000
+//   r10 =    0.353553, r11 =    0.707107, r12 =   -0.612372
+//   r20 =   -0.353553, r21 =    0.707107, r22 =    0.612372
+//   ex  =   -0.175000, ey  =    0.214330, ez  =    0.135670
+//------------------------- Parallel -----
+// Projecting
+//    world range : (-1, -1) .. (1, 1)
+//    canvas size : (W 500, H 400)
+//----------------------------------------
+// Displaying
+//    out file    : "example-01_pyramid-centered.sdf"
+//    canvas size : (W 500, H 400)
+//    clip region : (50, 40) .. (450, 360)
+
+ 16. You should get EXACTLY these results AND your
+     example-01_pyramid-centered.sdf file should match the one
+     given in the Results/ subdirectory.  If you do not, STOP
+     right here, DO NOT GO ANY FURTHER until you figure out what
+     is wrong with your code.
+
+     Seriously, I mean it.  If you can't get even this to work, it
+     is USELESS to go any further.  Your results will be
+     incorrect.
+
+     You can use the previously distributed Display tool to view
+     the generated .sdf file.  It should look like the image given
+     in the Screenshots/ subdirectory.  (Except, of course, it
+     will have YOUR background color and YOUR NetID in the status
+     line, right? :)
+
+ 17. Once you get the correct results from pipeline on this first
+     example working correctly, try it on the other params files
+     in the Examples/ subdirectory.  You can try,
+
+       $ ./pipeline Examples/example-01.params Examples/pyramid-centered.svfm example-01_pyramid-centered.sdf
+       $ ./pipeline Examples/example-01.params Examples/pyramid-skewed.svfm example-01_pyramid-skewed.sdf
+       $ ./pipeline Examples/example-02.params Examples/pyramid-centered.svfm example-02_pyramid-centered.sdf
+       $ ./pipeline Examples/example-02.params Examples/pyramid-skewed.svfm example-02_pyramid-skewed.sdf
+       $ ./pipeline Examples/example-03.params Examples/pyramid-centered.svfm example-03_pyramid-centered.sdf
+       $ ./pipeline Examples/example-03.params Examples/pyramid-skewed.svfm example-03_pyramid-skewed.sdf
+       $ ./pipeline Examples/example-04.params Examples/monkey.svfm example-04_monkey.sdf
+       $ ./pipeline Examples/example-04.params Examples/monkey-back.svfm example-04_monkey-back.sdf
+       $ ./pipeline Examples/example-05.params Examples/monkey.svfm example-05_monkey.sdf
+       $ ./pipeline Examples/example-05.params Examples/monkey-back.svfm example-05_monkey-back.sdf
+       $ ./pipeline Examples/example-06.params Examples/monkey.svfm example-06_monkey.sdf
+       $ ./pipeline Examples/example-06.params Examples/monkey-back.svfm example-06_monkey-back.sdf
+
+     Capture the results that get printed and compare them to the
+     corresponding ..._pipeline.txt files in the Results/
+     subdirectory.  You should get the SAME RESULTS for this AND
+     for the generated .sdf file.  Check what your .sdf files look
+     like by using the Display tool and comparing what you see to
+     the corresponding Screenshots/ image.
+
+ 18. Congratulations!  You've taken a 3D model all the way from
+     world space, through Euler rotation, projection (Parallel
+     and Perspective), and Cohen-Sutherland line clipping, to
+     final display as an image.
+
+#----------------------------------------------------------------------
+Submission:
+
+Make a zipfile of your 'hmwk_04_abc1234' directory (with 'abc1234'
+changed to YOUR NetID and with your clip.c, display.c,
+eulerRotate.c, and project.c files in it) and submit this zipfile
+on Canvas as your results for this assignment.
+
+All your zipfile should include is a directory with four files in
+it, clip.c, display.c, eulerRotate.c, and project.c (did you
+update the headers correctly in the source files?).
+
+Do NOT include any other files in the directory.
+
+#-----------------------------------------------------------------
+Hints:
+  1. Ensure your program compiles and runs correctly.  You should
+     not get ANY warnings or errors when you compile.  ALWAYS
+     compile your code with -Wall and -Wextra and deal with ANY
+     warnings or errors that are identified.  ALWAYS compile your
+     code with -fsanitize=leak and -fsanitize=address and deal
+     with ANY warnings or errors reported.
+
+     Generating warnings or errors, not compiling, not running,
+     core dumping, crashing, going into an infinite loop, getting
+     the wrong answers, getting memory errors ... will earn you
+     ZERO points.
+
+     Ensure your test results match those given in the Results/
+     subdirectory.  Not matching EXACTLY means you are not
+     performing the transformations correctly.  You will not get
+     any credit for malfunctioning transforms.
+
+     ('EXACTLY' means character-by-character the same in the
+      output.  No differences in values.)
+
+  2. Ensure that you update the three header lines in the source
+     files with YOUR name (family name first, then a comma, then
+     your personal name), YOUR NetID, and the date you edit the
+     file, in the format YYYY-MM-DD (all digits!).
+
+     Not updating the header lines properly will cost you points.
+
+  3. Ensure your submission is packaged EXACTLY as described above.
+
+      -- Your submission should be a ZIP FILE (not a tar, rar, gz,
+         or any other kind of compressed file).
+
+      -- The zip file should be named 'hmwk_04_abc1234.zip' (with
+         'abc1234' replaced with YOUR NetID).
+
+      -- This zip file should have ONE item in it, a directory
+         named 'hmwk_04_abc1234'  (with 'abc1234' replaced with
+         YOUR NetID).
+
+      -- Your files should be in that directory.  The files should
+         be named clip.c, display.c, eulerRotate.c, and project.c.
+
+     Submissions in the wrong format score ZERO points.
+
+  4. Your submission is going to be tried against other test
+     examples when it's evaluated for credit.  You DEFINITELY need
+     to make some test cases of your own to ensure that your
+     transforms are working properly.
+
+  5. This assignment is NOT a lot of work.  Here's how many lines
+     of code were written to develop the reference solution:
+
+eulerRotate.c:31:  [ 4 lines of code]
+eulerRotate.c:40:  [15 lines of code]
+eulerRotate.c:52:  [ 4 lines of code]
+eulerRotate.c:62:  [ 6 lines of code]
+eulerRotate.c:85:  [ 6 lines of code]
+------------------------------------------------------------------
+                   [35 lines of code in total for eulerRotate.c]
+
+project.c:30:      [ 5 lines of code]
+project.c:47:      [ 6 lines of code]
+project.c:56:      [ 6 lines of code]
+------------------------------------------------------------------
+                   [17 lines of code in total for project.c]
+
+clip.c:23:         [ 2 lines of code]
+clip.c:25:         [ 1 line of code]
+clip.c:27:         [ 1 line of code]
+clip.c:32:         [25 lines of code]
+clip.c:48:         [12 lines of code]
+------------------------------------------------------------------
+                   [41 lines of code in total for clip.c]
+
+display.c: 44:     [ 2 lines of code]
+display.c: 57:     [ 8 lines of code]
+display.c: 72:     [ 3 lines of code]
+display.c: 89:     [ 3 lines of code]
+display.c:101:     [ 4 lines of code]
+display.c:110:     [ 4 lines of code]
+------------------------------------------------------------------
+                   [24 lines of code in total for display.c]
+
+     Adding all of this up gets us to 35 + 17 + 41 + 24 = 117
+     lines of code in total.  That's not a lot of code to write!
+
+  6. The way to quickly succeed at this assignment is to develop
+     the code in the proper order and ensure that each bit is
+     correct before moving on to the next bit.
+
+     Seriously, do the eulerRotate.c part first and exercise it
+     using eulerTest BEFORE going any further.
+
+     Once eulerRotate.c is working OK, THEN AND ONLY THEN move on
+     to project.c.  Develop that code next and exercise it with
+     projectTest BEFORE going any further.
+
+     Once project.c is working OK, THEN AND ONLY THEN move on to
+     clip.c and display.c.
+
+  7. After you submit your zip file on Canvas, download it from
+     Canvas into an empty directory, unzip it, and check that your
+     submission is in the proper format, that the program runs and
+     prints the correct output, that you updated the header lines
+     correctly, that there are only the four required source files
+     in the directory, and so forth.
+
+  8. Are you CERTAIN you complied with all of these nit-picking
+     instructions?  Really?  Maybe you ought to check just one
+     more time. :)
+
+#-----------------------------------------------------------------

@@ -1,0 +1,374 @@
+#-----------------------------------------------------------------
+Programming Assignment 05
+
+#-----------------------------------------------------------------
+Purpose:
+
+  * Demonstrate ability to write a simple C function that will
+      implement backface culling.
+
+#-----------------------------------------------------------------
+Background:
+
+  * All the math and background you need we reviewed in class.
+
+  * It's all covered in the various handouts that are available on
+    Canvas.  (Don't forget to review your own notes as well.  You
+    do take notes in class, don't you?)
+
+#-----------------------------------------------------------------
+Tasks:
+
+  1. Download hmwk_05_dalioba.zip from Canvas.
+
+  2. Unzip this file somewhere convenient.
+
+  3. Change 'dalioba' in the name of the directory to your NetID.
+     (Your NetID is three letters followed by four or five digits.
+      The directory name will now be something like
+      'hmwk_05_abc1234' but with _your_ NetID in place of
+      'abc1234'.)
+
+  4. Look in that directory.  There's a Template directory that
+     has some files in it.  Move them up one level into the
+     'hmwk_05_abc1234' directory.
+
+  5. Change the header lines in the file cull.c.
+
+      -- Line 1:  Family name first, then a comma, then your
+                  personal name.
+
+      -- Line 2:  Your NetID.
+
+      -- Line 3:  The date you edited the file, in the format
+                  YYYY-MM-DD (all digits!).
+
+  6. There are a number of spots in cull.c marked with TODO
+      instructions (and sometimes HINTs):
+
+cull.c:27:  // TODO: Determine the x,y,z of the camera position based on ...
+cull.c:54:  // TODO: Determine the x,y,z of the a vector.  The math is in ...
+cull.c:67:  // TODO: Determine the x,y,z of the b vector.  The math is in ...
+cull.c:80:  // TODO: Determine the x,y,z of the surface normal.  Be ...
+cull.c:95:  // TODO: Determine the x,y,z of the toTriangle vector.  The ...
+cull.c:108: // TODO: Determine cos θ using the dot product.  All the math ...
+cull.c:122: // TODO: Set the invisible bit of the current face using the ...
+cull.c:128: // TODO: Count the number of faces that were determined to be ...
+
+     Read those instructions and write the proper code to replace
+     those TODO spots.  DO NOT CHANGE ANYTHING in the file EXCEPT
+     the TODO blocks (and the headers, of course :).  If you
+     change ANYTHING ELSE in the file, you will receive ZERO
+     CREDIT for this part of the assignment (no matter how well
+     the code might run for you).
+
+  7. Once you have replaced the TODO blocks in cull.c with the
+     proper code, run cullTest thusly,
+
+$ make cullTest
+gcc -g -Wall -Wextra -fsanitize=address -fsanitize=leak -static-libasan -o cullTest clip.c cull.c display.c eulerRotate.c project.c matrix.c transforms.c support.c cullTest.c -lm
+$ ./cullTest Examples/example-13.params Examples/pyramid-corner.svfm
+//----------------------------------------
+// Loading parameters from "Examples/example-13.params" ...
+// Params from "Examples/example-13.params"
+//   Euler angles    : ϕ 0°, θ 0°, ψ 0°
+//   Camera distance : 1.125
+//   World view      : (-1, -1) .. (1, 1)
+//   Canvas size     : (W 600, H 600)
+//   Screen clip     : (30, 30) .. (570, 570)
+//   Cull            : Yes
+//----------------------------------------
+// Loading object from "Examples/pyramid-corner.svfm" ...
+//   5 points, 6 faces
+//----------------------------------------
+// Euler rotation by ϕ 0°, θ 0°, ψ 0° ...
+//   r00 =    1.000000, r01 =    0.000000, r02 =    0.000000
+//   r10 =    0.000000, r11 =    1.000000, r12 =    0.000000
+//   r20 =    0.000000, r21 =    0.000000, r22 =    1.000000
+//   ex  =    0.000000, ey  =    0.000000, ez  =    0.000000
+//-------------------- Backface Culling --
+//   cameraPos  : (   0.000000e+00,   0.000000e+00,   1.125000e+00 )
+//----------------------------------------
+//   0.  f   3   1   0
+//     a vector          : (   0.000000e+00,  -8.000000e-01,   0.000000e+00 )
+//     b vector          : (  -8.000000e-01,  -8.000000e-01,   0.000000e+00 )
+//     surface normal    : (   0.000000e+00,  -0.000000e+00,  -6.400000e-01 )
+//     toTriangle vector : (   8.000000e-01,   8.000000e-01,  -1.125000e+00 )
+//     dot product       :   7.200000e-01
+//   0.  f   3   1   0  ->   1 (invisible)
+//----------------------------------------
+//   1.  f   2   3   0
+//     a vector          : (   8.000000e-01,   0.000000e+00,   0.000000e+00 )
+//     b vector          : (   0.000000e+00,  -8.000000e-01,   0.000000e+00 )
+//     surface normal    : (   0.000000e+00,   0.000000e+00,  -6.400000e-01 )
+//     toTriangle vector : (   0.000000e+00,   8.000000e-01,  -1.125000e+00 )
+//     dot product       :   7.200000e-01
+//   1.  f   2   3   0  ->   1 (invisible)
+//----------------------------------------
+//   2.  f   1   4   0
+//     a vector          : (  -4.000000e-01,   4.000000e-01,   7.000000e-01 )
+//     b vector          : (  -8.000000e-01,   0.000000e+00,   0.000000e+00 )
+//     surface normal    : (   0.000000e+00,  -5.600000e-01,   3.200000e-01 )
+//     toTriangle vector : (   8.000000e-01,   0.000000e+00,  -1.125000e+00 )
+//     dot product       :  -3.600000e-01
+//   2.  f   1   4   0  ->   0 (visible)
+//----------------------------------------
+//   3.  f   4   2   0
+//     a vector          : (  -4.000000e-01,   4.000000e-01,  -7.000000e-01 )
+//     b vector          : (  -4.000000e-01,  -4.000000e-01,  -7.000000e-01 )
+//     surface normal    : (  -5.600000e-01,   0.000000e+00,   3.200000e-01 )
+//     toTriangle vector : (   4.000000e-01,   4.000000e-01,  -4.250000e-01 )
+//     dot product       :  -3.600000e-01
+//   3.  f   4   2   0  ->   0 (visible)
+//----------------------------------------
+//   4.  f   1   3   4
+//     a vector          : (   0.000000e+00,   8.000000e-01,   0.000000e+00 )
+//     b vector          : (  -4.000000e-01,   4.000000e-01,   7.000000e-01 )
+//     surface normal    : (   5.600000e-01,  -0.000000e+00,   3.200000e-01 )
+//     toTriangle vector : (   8.000000e-01,   0.000000e+00,  -1.125000e+00 )
+//     dot product       :   8.800000e-02
+//   4.  f   1   3   4  ->   1 (invisible)
+//----------------------------------------
+//   5.  f   2   4   3
+//     a vector          : (   4.000000e-01,  -4.000000e-01,   7.000000e-01 )
+//     b vector          : (   8.000000e-01,   0.000000e+00,   0.000000e+00 )
+//     surface normal    : (  -0.000000e+00,   5.600000e-01,   3.200000e-01 )
+//     toTriangle vector : (   0.000000e+00,   8.000000e-01,  -1.125000e+00 )
+//     dot product       :   8.800000e-02
+//   5.  f   2   4   3  ->   1 (invisible)
+//----------------------------------------
+//   6 faces in model, 4 are invisible.
+//----------------------------------------
+
+  8. You should get EXACTLY these results.  (There's a cullTest
+     text file corresponding to this exercise in the Results/
+     directory that you can use for comparison with diff.)  If you
+     do not get EXACTLY these results, STOP right here, DO NOT GO
+     ANY FURTHER until you figure out what is wrong with your
+     code.
+
+     Seriously, I mean it.  If you can't get even this to work, it
+     is USELESS to go any further.  Your results will be
+     incorrect.
+
+  9. Once you get the correct results from cullTest on this
+     initial example, try it on the other params file / object
+     file combinations.  Reference results for these combinations
+     are supplied in the Results/ directory,
+
+        $ ./cullTest Examples/example-07.params Examples/pyramid-centered.svfm
+        $ ./cullTest Examples/example-07.params Examples/pyramid-skewed.svfm
+        $ ./cullTest Examples/example-08.params Examples/pyramid-centered.svfm
+        $ ./cullTest Examples/example-08.params Examples/pyramid-skewed.svfm
+        $ ./cullTest Examples/example-09.params Examples/pyramid-centered.svfm
+        $ ./cullTest Examples/example-09.params Examples/pyramid-skewed.svfm
+        $ ./cullTest Examples/example-10.params Examples/monkey.svfm
+        $ ./cullTest Examples/example-10.params Examples/monkey-back.svfm
+        $ ./cullTest Examples/example-11.params Examples/monkey.svfm
+        $ ./cullTest Examples/example-11.params Examples/monkey-back.svfm
+        $ ./cullTest Examples/example-12.params Examples/monkey.svfm
+        $ ./cullTest Examples/example-12.params Examples/monkey-back.svfm
+        $ ./cullTest Examples/example-13.params Examples/pyramid-centered.svfm
+        $ ./cullTest Examples/example-13.params Examples/pyramid-corner.svfm
+        $ ./cullTest Examples/example-13.params Examples/pyramid-skewed.svfm
+        $ ./cullTest Examples/example-14.params Examples/pyramid-centered.svfm
+        $ ./cullTest Examples/example-14.params Examples/pyramid-corner.svfm
+        $ ./cullTest Examples/example-14.params Examples/pyramid-skewed.svfm
+
+     Capture the results that get printed and compare them to the
+     corresponding ..._cullTest.txt files in the Results/
+     subdirectory.  You should get the SAME RESULTS.
+
+ 10. Once all of the cullTest exercises are working correctly, you
+     can move on.  Run pipeline thusly,
+
+$ make pipeline
+gcc -g -Wall -Wextra -fsanitize=address -fsanitize=leak -static-libasan -o pipeline clip.c cull.c display.c eulerRotate.c project.c matrix.c transforms.c support.c main.c -lm
+$  ./pipeline Examples/example-13.params Examples/pyramid-corner.svfm example-13_pyramid-corner.sdf
+//----------------------------------------
+// Loading parameters from "example-13.params" ...
+// Params from "Examples/example-13.params"
+//   Euler angles    : ϕ 0°, θ 0°, ψ 0°
+//   Camera distance : 1.125
+//   World view      : (-1, -1) .. (1, 1)
+//   Canvas size     : (W 600, H 600)
+//   Screen clip     : (30, 30) .. (570, 570)
+//   Cull            : Yes
+//----------------------------------------
+// Loading object from "Examples/pyramid-corner.svfm" ...
+//   5 points, 6 faces
+//----------------------------------------
+// Euler rotation by ϕ 0°, θ 0°, ψ 0° ...
+//   r00 =    1.000000, r01 =    0.000000, r02 =    0.000000
+//   r10 =    0.000000, r11 =    1.000000, r12 =    0.000000
+//   r20 =    0.000000, r21 =    0.000000, r22 =    1.000000
+//   ex  =    0.000000, ey  =    0.000000, ez  =    0.000000
+//-------------------- Backface Culling --
+//   6 faces in model, 4 are invisible.
+//------------------------- Perspective --
+// Projecting
+//    World view  : (-1, -1) .. (1, 1)
+//    Canvas size : (W 600, H 600)
+//    Viewpoint   : 1.125
+//----------------------------------------
+// Displaying
+//    Out file    : "example-13_pyramid-corner.sdf"
+//    Canvas size : (W 600, H 600)
+//    Clip region : (30, 30) .. (570, 570)
+//----------------------------------------
+
+ 11. You should get EXACTLY these results.  (There's a pipeline
+     text file corresponding to this exercise in the Results/
+     directory that you can use for comparison with diff.)  If you
+     do not get EXACTLY these results, STOP right here, DO NOT GO
+     ANY FURTHER until you figure out what is wrong with your
+     code.
+
+     Seriously, I mean it.  If you can't get even this to work, it
+     is USELESS to go any further.  Your results will be
+     incorrect.
+
+     Your example-13_pyramid-corner.sdf file should match the one
+     given in the Results/ subdirectory.  If it does not, STOP
+     right here, DO NOT GO ANY FURTHER until you figure out what
+     is wrong with your code.
+
+     You can use the previously distributed Display tool to view
+     the generated .sdf file.  It should look like the image given
+     in the Screenshots/ subdirectory.  (Except, of course, it
+     will have YOUR background color and YOUR NetID in the status
+     line, right? :)
+
+ 12. Once you get the correct results from pipeline on this
+     initial example, try it on the other params file / object
+     file combinations.  Reference results for these combinations
+     are supplied in the Results/ directory,
+
+        $ ./pipeline Examples/example-07.params Examples/pyramid-centered.svfm example-07_pyramid-centered.sdf
+        $ ./pipeline Examples/example-07.params Examples/pyramid-skewed.svfm example-07_pyramid-skewed.sdf
+        $ ./pipeline Examples/example-08.params Examples/pyramid-centered.svfm example-08_pyramid-centered.sdf
+        $ ./pipeline Examples/example-08.params Examples/pyramid-skewed.svfm example-08_pyramid-skewed.sdf
+        $ ./pipeline Examples/example-09.params Examples/pyramid-centered.svfm example-09_pyramid-centered.sdf
+        $ ./pipeline Examples/example-09.params Examples/pyramid-skewed.svfm example-09_pyramid-skewed.sdf
+        $ ./pipeline Examples/example-10.params Examples/monkey.svfm example-10_monkey.sdf
+        $ ./pipeline Examples/example-10.params Examples/monkey-back.svfm example-10_monkey-back.sdf
+        $ ./pipeline Examples/example-11.params Examples/monkey.svfm example-11_monkey.sdf
+        $ ./pipeline Examples/example-11.params Examples/monkey-back.svfm example-11_monkey-back.sdf
+        $ ./pipeline Examples/example-12.params Examples/monkey.svfm example-12_monkey.sdf
+        $ ./pipeline Examples/example-12.params Examples/monkey-back.svfm example-12_monkey-back.sdf
+        $ ./pipeline Examples/example-13.params Examples/pyramid-centered.svfm example-13_pyramid-centered.sdf
+        $ ./pipeline Examples/example-13.params Examples/pyramid-corner.svfm example-13_pyramid-corner.sdf
+        $ ./pipeline Examples/example-13.params Examples/pyramid-skewed.svfm example-13_pyramid-skewed.sdf
+        $ ./pipeline Examples/example-14.params Examples/pyramid-centered.svfm example-14_pyramid-centered.sdf
+        $ ./pipeline Examples/example-14.params Examples/pyramid-corner.svfm example-14_pyramid-corner.sdf
+        $ ./pipeline Examples/example-14.params Examples/pyramid-skewed.svfm example-14_pyramid-skewed.sdf
+
+     Capture the results that get printed and compare them to the
+     corresponding ..._pipeline.txt files in the Results/
+     subdirectory.  You should get the SAME RESULTS for this AND
+     for the generated .sdf file.  Check what your .sdf files look
+     like by using the Display tool and comparing what you see to
+     the corresponding Screenshots/ image.
+
+ 13. Congratulations!  You've taken a 3D model all the way from
+     world space, through Euler rotation, backface culling,
+     projection (Parallel and Perspective), and Cohen-Sutherland
+     line clipping, to final display as an image.
+
+ 14. Do the images viewed using the Display tool look as you
+     expected them to?  Why or why not?
+
+#----------------------------------------------------------------------
+Submission:
+
+Make a zipfile of your 'hmwk_05_abc1234' directory (with 'abc1234'
+changed to YOUR NetID and with your cull.c file in it) and submit
+this zipfile on Canvas as your results for this assignment.
+
+All your zipfile should include is a directory with one file in
+it, cull.c (did you update the headers correctly in the source
+file?).
+
+Do NOT include any other files in the directory.
+
+#-----------------------------------------------------------------
+Hints:
+  1. Ensure your program compiles and runs correctly.  You should
+     not get ANY warnings or errors when you compile.  ALWAYS
+     compile your code with -Wall and -Wextra and deal with ANY
+     warnings or errors that are identified.  ALWAYS compile your
+     code with -fsanitize=leak and -fsanitize=address and deal
+     with ANY warnings or errors reported.
+
+     Generating warnings or errors, not compiling, not running,
+     core dumping, crashing, going into an infinite loop, getting
+     the wrong answers, getting memory errors ... will earn you
+     ZERO points.
+
+     Ensure your test results match those given in the Results/
+     subdirectory.  Not matching EXACTLY means you are not
+     performing the transformations correctly.  You will not get
+     any credit for malfunctioning operations.
+
+     ('EXACTLY' means character-by-character the same in the
+      output.  No differences in values, spacing, capitalization,
+      etc.)
+
+  2. Ensure that you update the three header lines in the source
+     file with YOUR name (family name first, then a comma, then
+     your personal name), YOUR NetID, and the date you edit the
+     file, in the format YYYY-MM-DD (all digits!).
+
+     Not updating the header lines properly will cost you points.
+
+  3. Ensure your submission is packaged EXACTLY as described above.
+
+      -- Your submission should be a ZIP FILE (not a tar, rar, gz,
+         or any other kind of compressed file).
+
+      -- The zip file should be named 'hmwk_05_abc1234.zip' (with
+         'abc1234' replaced with YOUR NetID).
+
+      -- This zip file should have ONE item in it, a directory
+         named 'hmwk_05_abc1234'  (with 'abc1234' replaced with
+         YOUR NetID).
+
+      -- Your file should be in that directory.  The file should
+         be named cull.c.
+
+     Submissions in the wrong format score ZERO points.
+
+  4. Your submission is going to be tried against other test
+     examples when it's evaluated for credit.  You DEFINITELY need
+     to make some test cases of your own to ensure that all of
+     your operations are working properly.
+
+  5. This assignment is NOT a lot of work.  Here's how many lines
+     of code were written to develop the reference solution:
+
+cull.c:27:  [ 3 lines of code]
+cull.c:54:  [ 3 lines of code]
+cull.c:67:  [ 3 lines of code]
+cull.c:80:  [ 3 lines of code]
+cull.c:95:  [ 3 lines of code]
+cull.c:108: [ 1 line of code]
+cull.c:122: [ 1 line of code]
+cull.c:128: [ 1 line of code]
+------------------------------------------------------------------
+            [18 lines of code in total for display.c]
+
+     Adding all of this up gets us to eighteen (18) lines of code
+     in total.  EIGHTEEN!  That's not a lot of code to write!
+
+  6. After you submit your zip file on Canvas, download it from
+     Canvas into an empty directory, unzip it, and check that your
+     submission is in the proper format, that the program runs and
+     prints the correct output, that you updated the header lines
+     correctly, that there is only the single required source file
+     in the directory, and so forth.
+
+  7. Are you CERTAIN you complied with all of these nit-picking
+     instructions?  Really?  Maybe you ought to check just one
+     more time. :)
+
+#-----------------------------------------------------------------

@@ -1,0 +1,26 @@
+//----------------------------------------
+// Loading parameters from "example-02.params" ...
+// Params from "example-02.params"
+//   Euler angles    : ϕ 45°, θ 30°, ψ 0°
+//   Camera distance : 0
+//   World view      : (-1, -1) .. (1, 1)
+//   Canvas size     : (W 500, H 400)
+//   Screen clip     : (200, 200) .. (340, 340)
+//----------------------------------------
+// Loading object from "pyramid-centered.svfm" ...
+//   5 points, 6 faces
+//----------------------------------------
+// Euler rotation by ϕ 45°, θ 30°, ψ 0° ...
+//   r00 =    0.866025, r01 =    0.000000, r02 =    0.500000
+//   r10 =    0.353553, r11 =    0.707107, r12 =   -0.612372
+//   r20 =   -0.353553, r21 =    0.707107, r22 =    0.612372
+//   ex  =   -0.175000, ey  =    0.214330, ez  =    0.135670
+//------------------------- Parallel -----
+// Projecting
+//    world range : (-1, -1) .. (1, 1)
+//    canvas size : (W 500, H 400)
+//----------------------------------------
+// Displaying
+//    out file    : "example-02_pyramid-centered.sdf"
+//    canvas size : (W 500, H 400)
+//    clip region : (200, 200) .. (340, 340)
