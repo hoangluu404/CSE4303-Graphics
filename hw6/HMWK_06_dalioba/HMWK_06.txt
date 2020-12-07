@@ -1,0 +1,227 @@
+#-----------------------------------------------------------------
+Programming Assignment 06
+
+#-----------------------------------------------------------------
+Purpose:
+
+  * Demonstrate ability to write some simple C functions that will
+      implement Bézier patches.
+
+#-----------------------------------------------------------------
+Background:
+
+  * All the math and background you need we reviewed in class.
+
+  * It's all covered in the various handouts that are available on
+    Canvas.  (Don't forget to review your own notes as well.  You
+    do take notes in class, don't you?)
+
+#-----------------------------------------------------------------
+Tasks:
+
+  1. Download hmwk_06_dalioba.zip from Canvas.
+
+  2. Unzip this file somewhere convenient.
+
+  3. Change 'dalioba' in the name of the directory to your NetID.
+     (Your NetID is three letters followed by four or five digits.
+      The directory name will now be something like
+      'hmwk_06_abc1234' but with _your_ NetID in place of
+      'abc1234'.)
+
+  4. Look in that directory.  There's a Template directory that
+     has some files in it.  Move them up one level into the
+     'hmwk_06_abc1234' directory.
+
+  5. Change the header lines in the file patch.c.
+
+      -- Line 1:  Family name first, then a comma, then your
+                  personal name.
+
+      -- Line 2:  Your NetID.
+
+      -- Line 3:  The date you edited the file, in the format
+                  YYYY-MM-DD (all digits!).
+
+  6. There are a number of spots in patch.c marked with TODO
+      instructions:
+
+patch.c:147:  // TODO : Declare u and initialize it to the correct value
+patch.c:154:  // TODO : Declare v and initialize it to the correct value
+patch.c:164:  // TODO : Declare c and initialize it to the correct
+patch.c:175:  // TODO : Update ptP's x, y, z elements properly using
+patch.c:187:  // TODO : Set ptP's w element to 1.0.
+patch.c:191:  // TODO : Update xmin, xmax, ymin, ymax, zmin, zmax as
+patch.c:196:  // TODO : Advance ptP to the next position.
+patch.c:241:  // TODO : Fill in cases 0, 1, 2, 3, and default using the
+patch.c:251:  // TODO : Fill in cases 0, 1, 2, 3, and default using the
+patch.c:261:  // TODO : Fill in cases 0, 1, 2, 3, and default using the
+
+     Read those instructions and write the proper code to replace
+     those TODO spots.  DO NOT CHANGE ANYTHING in the file EXCEPT
+     the TODO blocks (and the headers, of course :).  If you
+     change ANYTHING ELSE in the file, you will receive ZERO
+     CREDIT for this part of the assignment (no matter how well
+     the code might run for you).
+
+  7. Once you have replaced the TODO blocks in patch.c with the
+     proper code, run pipeline thusly,
+
+$ make pipeline
+gcc -g -Wall -Wextra -fsanitize=address -fsanitize=leak -static-libasan -o pipeline clip.c cull.c display.c eulerRotate.c patch.c project.c matrix.c transforms.c support.c main.c -lm
+$ ./pipeline Examples/example-15.params Examples/patchTest.svfm example-15_patchTest.sdf > example-15_patchTest_pipeline.txt
+$
+
+  8. Notice that the results that would normally go to the console
+     have been redirected to a file (example-15_patchTest_pipeline.txt).
+     The output is so long that it's impractical to list it here.
+     Capture the output from your run and diff it against the
+     corresponding file in the Results/ directory.
+
+     You should get EXACTLY those results.  If you do not get
+     EXACTLY those results, STOP right here, DO NOT GO ANY
+     FURTHER until you figure out what is wrong with your code.
+
+     Seriously, I mean it.  If you can't get even this to work, it
+     is USELESS to go any further.  Your results will be
+     incorrect.
+
+     Your example-15_patchTest.sdf file should match the one
+     given in the Results/ subdirectory.  If it does not, STOP
+     right here, DO NOT GO ANY FURTHER until you figure out what
+     is wrong with your code.
+
+     You can use the previously distributed Display tool to view
+     the generated .sdf file.  It should look like the image given
+     in the Screenshots/ subdirectory.  (Except, of course, it
+     will have YOUR background color and YOUR NetID in the status
+     line, right? :)
+
+  9. Once you get the correct results from pipeline on this
+     initial example, try it on the other params file / object
+     file combinations.  Reference results for these combinations
+     are supplied in the Results/ directory,
+
+      $ ./pipeline Examples/example-15.params Examples/patchTest.svfm example-15_patchTest.sdf > example-15_patchTest_pipeline.txt
+      $ ./pipeline Examples/example-16.params Examples/teacup-patches.svfm example-16_teacup-patches.sdf > example-16_teacup-patches_pipeline.txt
+      $ ./pipeline Examples/example-17.params Examples/teacup-patches.svfm example-17_teacup-patches.sdf > example-17_teacup-patches_pipeline.txt
+
+     Capture the results that get printed and compare them to the
+     corresponding ..._pipeline.txt files in the Results/
+     subdirectory.  You should get the SAME RESULTS for this AND
+     for the generated .sdf file.  Check what your .sdf files look
+     like by using the Display tool and comparing what you see to
+     the corresponding Screenshots/ image.
+
+ 10. These are LARGE files because there's a bunch of debugging
+     output in each one.  You should get the same answers.  If you
+     don't, see where the FIRST difference between the output you
+     see and the Results/ version occurs and figure out what went
+     wrong.
+
+ 11. Congratulations!  You've taken a 3D model all the way from
+     world space, through Euler rotation, Bézier surface
+     generation, backface culling, projection (Parallel and
+     Perspective), and Cohen-Sutherland line clipping, to final
+     display as an image.
+
+ 12. Do the images viewed using the Display tool look as you
+     expected them to?  Why or why not?
+
+#----------------------------------------------------------------------
+Submission:
+
+Make a zipfile of your 'hmwk_06_abc1234' directory (with 'abc1234'
+changed to YOUR NetID and with your patch.c file in it) and submit
+this zipfile on Canvas as your results for this assignment.
+
+All your zipfile should include is a directory with one file in
+it, patch.c (did you update the headers correctly in the source
+file?).
+
+Do NOT include any other files in the directory.
+
+#-----------------------------------------------------------------
+Hints:
+  1. Ensure your program compiles and runs correctly.  You should
+     not get ANY warnings or errors when you compile.  ALWAYS
+     compile your code with -Wall and -Wextra and deal with ANY
+     warnings or errors that are identified.  ALWAYS compile your
+     code with -fsanitize=leak and -fsanitize=address and deal
+     with ANY warnings or errors reported.
+
+     Generating warnings or errors, not compiling, not running,
+     core dumping, crashing, going into an infinite loop, getting
+     the wrong answers, getting memory errors ... will earn you
+     ZERO points.
+
+     Ensure your test results match those given in the Results/
+     subdirectory.  Not matching EXACTLY means you are not
+     performing the gnerations correctly.  You will not get any
+     credit for malfunctioning operations.
+
+     ('EXACTLY' means character-by-character the same in the
+      output.  No differences in values, spacing, capitalization,
+      etc.)
+
+  2. Ensure that you update the three header lines in the source
+     file with YOUR name (family name first, then a comma, then
+     your personal name), YOUR NetID, and the date you edit the
+     file, in the format YYYY-MM-DD (all digits!).
+
+     Not updating the header lines properly will cost you points.
+
+  3. Ensure your submission is packaged EXACTLY as described above.
+
+      -- Your submission should be a ZIP FILE (not a tar, rar, gz,
+         or any other kind of compressed file).
+
+      -- The zip file should be named 'hmwk_06_abc1234.zip' (with
+         'abc1234' replaced with YOUR NetID).
+
+      -- This zip file should have ONE item in it, a directory
+         named 'hmwk_06_abc1234'  (with 'abc1234' replaced with
+         YOUR NetID).
+
+      -- Your file should be in that directory.  The file should
+         be named patch.c.
+
+     Submissions in the wrong format score ZERO points.
+
+  4. Your submission is going to be tried against other test
+     examples when it's evaluated for credit.  You DEFINITELY need
+     to make some test cases of your own to ensure that all of
+     your operations are working properly.
+
+  5. This assignment is NOT a lot of work.  Here's how many lines
+     of code were written to develop the reference solution:
+
+patch.c:147:  [ 1 line of code]
+patch.c:154:  [ 1 line of code]
+patch.c:164:  [ 1 line of code]
+patch.c:175:  [ 3 lines of code]
+patch.c:187:  [ 1 line of code]
+patch.c:191:  [ 6 lines of code]
+patch.c:196:  [ 1 line of code]
+patch.c:241:  [ 7 lines of code]
+patch.c:251:  [ 7 lines of code]
+patch.c:261:  [ 7 lines of code]
+------------------------------------------------------------------
+              [35 lines of code in total for patch.c]
+
+     Adding all of this up gets us to thirty-five (35) lines of
+     code in total.  THIRTY-FIVE!  That's not a lot of code to
+     write!
+
+  6. After you submit your zip file on Canvas, download it from
+     Canvas into an empty directory, unzip it, and check that your
+     submission is in the proper format, that the program runs and
+     prints the correct output, that you updated the header lines
+     correctly, that there is only the single required source file
+     in the directory, and so forth.
+
+  7. Are you CERTAIN you complied with all of these nit-picking
+     instructions?  Really?  Maybe you ought to check just one
+     more time. :)
+
+#-----------------------------------------------------------------
